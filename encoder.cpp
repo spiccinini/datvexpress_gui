@@ -1,15 +1,21 @@
+#include <chrono>
 #include "DVBS2.h"
 
 #define PACKET_SIZE		188
-#define PACKET_NUMBER	10000
-#define PACKET_STREAM	(PACKET_NUMBER*PACKET_SIZE)
-#define CP 0x7FFF
-#define PRINT_SIZE		16
-#define DATA_FROM_ENC	1	// ENCODE OR FILE
-#define VALUE_DIFF		60
+#define PACKET_NUMBER	40000
+#define PACKET_STREAM_SIZE	(PACKET_NUMBER*PACKET_SIZE)
+#define RUNS     5
 
-void init(u8* buffer, int n);	// initialize info
 
+void dvb_s2_encode_tp(DVBS2* m_dvbs2, u8 *tp)
+{
+    int len;
+
+    if((len = m_dvbs2->s2_add_ts_frame(tp, false)) > 0 )
+    {
+        // dvbs2_modulate(m_dvbs2->pl_get_frame(), len); TODO
+    }
+}
 
 int main()
 {
@@ -22,9 +28,9 @@ int main()
 	// DVB-S2
 	//
 	dvbs2_fmt.frame_type    = FRAME_NORMAL;
-	dvbs2_fmt.code_rate     = CR_3_4;
-	dvbs2_fmt.constellation = M_32APSK;
-	dvbs2_fmt.roll_off      = RO_0_35;
+	dvbs2_fmt.code_rate     = CR_1_2;
+	dvbs2_fmt.constellation = M_QPSK;
+	dvbs2_fmt.roll_off      = RO_0_20;
 	dvbs2_fmt.pilots        = 0;
 	dvbs2_fmt.dummy_frame   = 0;
 	dvbs2_fmt.null_deletion = 0;
@@ -39,37 +45,29 @@ int main()
 		return -1;
 	}
 
-	u8 b[PACKET_STREAM];
-	init( b, PACKET_STREAM );
-
-	for (int i=0;i<PACKET_NUMBER;i++)
-	{
-		if( -1 == m_dvbs2->s2_add_ts_frame( b + i*PACKET_SIZE ) )
-			break;
+	u8 data_stream[PACKET_STREAM_SIZE];
+	for (size_t i=0; i<PACKET_STREAM_SIZE; ++i){
+	    data_stream[i] = i % 256;
 	}
 
-		int nFrameCount = m_dvbs2->get_frame_count();
-		printf("\nframe count : %d ... ... \n\n", nFrameCount );
 
-		for ( int i = 0; i<nFrameCount; i++ )
-		{
-            /*
-			memcpy( pl, sizeof(scmplx)*FRAME_SIZE_NORMAL,
-				m_dvbs2->pl_get_frame(i), sizeof(scmplx)*FRAME_SIZE_NORMAL);
+	std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
 
-			memcpy(  pBuffer,	sizeof(short)*FRAME_SIZE_NORMAL*2,
-				pl, sizeof(scmplx)*FRAME_SIZE_NORMAL );
+	for(size_t j=0; j< RUNS; ++j){
+	    u8 *data_ptr = data_stream;
+	    for (int i=0; i<PACKET_NUMBER; i++)
+	    {
+	        dvb_s2_encode_tp(m_dvbs2, data_ptr);
+	        data_ptr += PACKET_SIZE;
+	    }
+	}
 
-			fwrite( pBuffer, sizeof(short), FRAME_SIZE_NORMAL*2, stdout );
-            */
-		}
+	std::chrono::steady_clock::time_point end= std::chrono::steady_clock::now();
+	float elapsed_s = std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count()/1000000.0;
+	std::cout << "Elapsed = " << elapsed_s << "s" << std::endl;
+	std::cout << "throughput = " << (PACKET_STREAM_SIZE*8.0*RUNS/elapsed_s/1024/1024) << "Mbps" << std::endl;
 
 	delete	m_dvbs2;
     return 0;
 }
 
-void init(u8* buffer, int n)	// initialize info
-{
-	for (int i=0;i<n;i++)
-		buffer[i] = i%256;
-}
