@@ -94,7 +94,7 @@ int DVB2::next_ts_frame_base( u8 *ts )
             }
         }
     }
-    // Need to send a new transport packet 
+    // Need to send a new transport packet
     res = add_ts_frame_base( ts );
     if( res ) m_dnp = 0;// Clear the DNP counter
     // return whether it is time to transmit a new frame

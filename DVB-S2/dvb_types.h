@@ -150,82 +150,81 @@ typedef struct{
 	int configure()
 	{
 		int error = 0;
-		DVB2FrameFormat*f = this;
-		if( f->broadcasting )
+		if( this->broadcasting )
 		{
 			// Set standard parametrs for broadcasting
-			//f->frame_type        = FRAME_NORMAL;
-			f->bb_header.ts_gs   = TS_GS_TRANSPORT;
-			f->bb_header.sis_mis = SIS_MIS_SINGLE;
-			f->bb_header.ccm_acm = CCM;
-			f->bb_header.issyi   = 0;
-			f->bb_header.npd     = 0;
-			f->bb_header.upl     = 188*8;
-			f->bb_header.sync    = 0x47;
+			//this->frame_type        = FRAME_NORMAL;
+			this->bb_header.ts_gs   = TS_GS_TRANSPORT;
+			this->bb_header.sis_mis = SIS_MIS_SINGLE;
+			this->bb_header.ccm_acm = CCM;
+			this->bb_header.issyi   = 0;
+			this->bb_header.npd     = 0;
+			this->bb_header.upl     = 188*8;
+			this->bb_header.sync    = 0x47;
 		}
-		f->bb_header.ro = f->roll_off;
+		this->bb_header.ro = this->roll_off;
 		// Fill in the mode specific values and bit lengths
-		if( f->frame_type == FRAME_NORMAL )
+		if( this->frame_type == FRAME_NORMAL )
 		{
-			f->nldpc = 64800;
-			f->bch_code = BCH_CODE_N12;
+			this->nldpc = 64800;
+			this->bch_code = BCH_CODE_N12;
 			// Apply code rate
-			switch(f->code_rate )
+			switch(this->code_rate )
 			{
 			case CR_1_4:
-				f->q_val = 135;
-				f->kbch  = 16008;
-				f->bch_code = BCH_CODE_N12;
+				this->q_val = 135;
+				this->kbch  = 16008;
+				this->bch_code = BCH_CODE_N12;
 				break;
 			case CR_1_3:
-				f->q_val = 120;
-				f->kbch  = 21408;
-				f->bch_code = BCH_CODE_N12;
+				this->q_val = 120;
+				this->kbch  = 21408;
+				this->bch_code = BCH_CODE_N12;
 				break;
 			case CR_2_5:
-				f->q_val = 108;
-				f->kbch  = 25728;
-				f->bch_code = BCH_CODE_N12;
+				this->q_val = 108;
+				this->kbch  = 25728;
+				this->bch_code = BCH_CODE_N12;
 				break;
 			case CR_1_2:
-				f->q_val = 90;
-				f->kbch  = 32208;
-				f->bch_code = BCH_CODE_N12;
+				this->q_val = 90;
+				this->kbch  = 32208;
+				this->bch_code = BCH_CODE_N12;
 				break;
 			case CR_3_5:
-				f->q_val = 72;
-				f->kbch  = 38688;
-				f->bch_code = BCH_CODE_N12;
+				this->q_val = 72;
+				this->kbch  = 38688;
+				this->bch_code = BCH_CODE_N12;
 				break;
 			case CR_2_3:
-				f->q_val = 60;
-				f->kbch  = 43040;
-				f->bch_code = BCH_CODE_N10;
+				this->q_val = 60;
+				this->kbch  = 43040;
+				this->bch_code = BCH_CODE_N10;
 				break;
 			case CR_3_4:
-				f->q_val = 45;
-				f->kbch  = 48408;
-				f->bch_code = BCH_CODE_N12;
+				this->q_val = 45;
+				this->kbch  = 48408;
+				this->bch_code = BCH_CODE_N12;
 				break;
 			case CR_4_5:
-				f->q_val = 36;
-				f->kbch  = 51648;
-				f->bch_code = BCH_CODE_N12;
+				this->q_val = 36;
+				this->kbch  = 51648;
+				this->bch_code = BCH_CODE_N12;
 				break;
 			case CR_5_6:
-				f->q_val = 30;
-				f->kbch  = 53840;
-				f->bch_code = BCH_CODE_N10;
+				this->q_val = 30;
+				this->kbch  = 53840;
+				this->bch_code = BCH_CODE_N10;
 				break;
 			case CR_8_9:
-				f->q_val = 20;
-				f->kbch  = 57472;
-				f->bch_code = BCH_CODE_N8;
+				this->q_val = 20;
+				this->kbch  = 57472;
+				this->bch_code = BCH_CODE_N8;
 				break;
 			case CR_9_10:
-				f->q_val = 18;
-				f->kbch  = 58192;
-				f->bch_code = BCH_CODE_N8;
+				this->q_val = 18;
+				this->kbch  = 58192;
+				this->bch_code = BCH_CODE_N8;
 				break;
 			default:
 				printf("Configuration error DVB2\n");
@@ -234,56 +233,56 @@ typedef struct{
 			}
 		}
 
-		if( f->frame_type == FRAME_SHORT )
+		if( this->frame_type == FRAME_SHORT )
 		{
-			f->nldpc = 16200;
-			f->bch_code = BCH_CODE_S12;
+			this->nldpc = 16200;
+			this->bch_code = BCH_CODE_S12;
 			// Apply code rate
-			switch(f->code_rate )
+			switch(this->code_rate )
 			{
 			case CR_1_4:
-				f->q_val = 36;
-				f->kbch  = 3072;
+				this->q_val = 36;
+				this->kbch  = 3072;
 				break;
 			case CR_1_3:
-				f->q_val = 30;
-				f->kbch  = 5232;
+				this->q_val = 30;
+				this->kbch  = 5232;
 				break;
 			case CR_2_5:
-				f->q_val = 27;
-				f->kbch  = 6312;
+				this->q_val = 27;
+				this->kbch  = 6312;
 				break;
 			case CR_1_2:
-				f->q_val = 25;
-				f->kbch  = 7032;
+				this->q_val = 25;
+				this->kbch  = 7032;
 				break;
 			case CR_3_5:
-				f->q_val = 18;
-				f->kbch  = 9552;
+				this->q_val = 18;
+				this->kbch  = 9552;
 				break;
 			case CR_2_3:
-				f->q_val = 15;
-				f->kbch  = 10632;
+				this->q_val = 15;
+				this->kbch  = 10632;
 				break;
 			case CR_3_4:
-				f->q_val = 12;
-				f->kbch  = 11712;
+				this->q_val = 12;
+				this->kbch  = 11712;
 				break;
 			case CR_4_5:
-				f->q_val = 10;
-				f->kbch  = 12432;
+				this->q_val = 10;
+				this->kbch  = 12432;
 				break;
 			case CR_5_6:
-				f->q_val = 8;
-				f->kbch  = 13152;
+				this->q_val = 8;
+				this->kbch  = 13152;
 				break;
 			case CR_8_9:
-				f->q_val = 5;
-				f->kbch  = 14232;
+				this->q_val = 5;
+				this->kbch  = 14232;
 				break;
 			case CR_9_10:
 				error = 1;
-				f->kbch  = 0;
+				this->kbch  = 0;
 				break;
 			default:
 				printf("Configuration error DVB2\n");
@@ -293,9 +292,9 @@ typedef struct{
 		}
 
 		int bch_bits = 0;
-		if( f->frame_type == FRAME_NORMAL )
+		if( this->frame_type == FRAME_NORMAL )
 		{
-			switch(f->code_rate )
+			switch(this->code_rate )
 			{
 			case CR_2_3:
 			case CR_5_6:
@@ -317,17 +316,17 @@ typedef struct{
 		if( error == 0 )
 		{
 			// Length of the user packets
-			f->bb_header.upl  = 188*8;
+			this->bb_header.upl  = 188*8;
 			// Payload length
-			f->bb_header.dfl = f->kbch - 80;
+			this->bb_header.dfl = this->kbch - 80;
 			// Transport packet sync
-			f->bb_header.sync = 0x47;
+			this->bb_header.sync = 0x47;
 			// Start of LDPC bits
-			f->kldpc = f->kbch + bch_bits;
+			this->kldpc = this->kbch + bch_bits;
 			// Number of padding bits required (not used)
-			f->padding_bits = 0;
+			this->padding_bits = 0;
 			// Number of useable data bits (not used)
-			f->useable_data_bits = f->kbch - 80;
+			this->useable_data_bits = this->kbch - 80;
 		}
 
 		return error;
