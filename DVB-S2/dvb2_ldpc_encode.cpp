@@ -1,5 +1,5 @@
 #include "memory.h"
-#include "dvb2_ldpc_encode.h"
+#include "DVB2.h"
 
 /*
 for( int row = 0; row < rows; row++ ) 
@@ -26,8 +26,8 @@ for( int row = 0; row < ROWS; row++ ) \
 	{ \
 		for( int col = 1; col <= TABLE_NAME[row][0]; col++ ) \
 		{ \
-                        m_ldpc_table.p[index] =  (TABLE_NAME[row][col] + (n*q))%pbits; \
-			m_ldpc_table.d[index] = im; \
+                        m_ldpc_encode.p[index] =  (TABLE_NAME[row][col] + (n*q))%pbits; \
+			m_ldpc_encode.d[index] = im; \
 			index++; \
 		} \
 		im++; \
@@ -77,11 +77,8 @@ void DVBS2::ldpc_lookup_generate( void )
 	m_ldpc_encode.length = index;
 }
 */
-void Ldpc_encode::ldpc_lookup_generate(  DVB2FrameFormat *pFormat  )
+void DVB2::ldpc_lookup_generate( void )
 {
-	m_format = pFormat;
-	Ldpc_encode_table& m_ldpc_table = *m_table;
-
     int im;
     int index;
     int pbits;
@@ -119,13 +116,11 @@ void Ldpc_encode::ldpc_lookup_generate(  DVB2FrameFormat *pFormat  )
         if( m_format[0].code_rate == CR_5_6 ) LDPC_BF( ldpc_tab_5_6S, 37 );
         if( m_format[0].code_rate == CR_8_9 ) LDPC_BF( ldpc_tab_8_9S, 40 );
     }
-    m_ldpc_table.table_length = index;
+    m_ldpc_encode.table_length = index;
 }
 
-void Ldpc_encode::ldpc_encode(  Bit *m_frame  )
+void DVB2::ldpc_encode( void )
 {
-	Ldpc_encode_table& m_ldpc_table = *m_table;
-
     Bit *d,*p;
     // Calculate the number of parity bits
     int plen = m_format[0].nldpc - m_format[0].kldpc;
@@ -135,23 +130,28 @@ void Ldpc_encode::ldpc_encode(  Bit *m_frame  )
     memset( p, 0, sizeof(Bit)*plen);
 
     // now do the parity checking
-    for( int i = 0; i < m_ldpc_table.table_length; i++ )
+    for( int i = 0; i < m_ldpc_encode.table_length; i++ )
     {
-        p[m_ldpc_table.p[i]] ^= d[m_ldpc_table.d[i]];
+        p[m_ldpc_encode.p[i]] ^= d[m_ldpc_encode.d[i]];
     }
     for( int i = 1; i < plen; i++ )
     {
         p[i] ^= p[i-1];
     }
 }
-
-Ldpc_encode::Ldpc_encode()
+void DVB2::ldpc_encode_test( void )
 {
-	m_table = new Ldpc_encode_table;
+    if(1)// m_format.code_rate == CR_1_2 )
+    {
+        printf("\n\nEncode length %d\n",m_ldpc_encode.table_length);
+        printf("Parity start  %d\n",m_format[0].kldpc);
+        for( int i = 0; i < m_ldpc_encode.table_length; i++ )
+        {
+            if(m_ldpc_encode.d[i] == 0 )
+            {
+                printf("%d+%d\n",m_ldpc_encode.p[i],m_ldpc_encode.d[i]);
+            }
+        }
+        printf("Encode test end\n\n");
+    }
 }
-
-Ldpc_encode::~Ldpc_encode()
-{
-	delete m_table;
-}
-

@@ -11,11 +11,6 @@ void  DVBS2::end_of_frame_actions(void)
         modulator_configuration();
         m_s2_config_updated = 0;
     }
-
-	memcpy( m_pl_cache+m_nTotalFrame*FRAME_SIZE_NORMAL,
-		m_pl, sizeof(scmplx)*FRAME_SIZE_NORMAL );
-
-	m_nTotalFrame ++ ;
 }
 
 int DVBS2::is_valid( int mod, int coderate )
@@ -115,10 +110,8 @@ int DVBS2::s2_set_configure( DVB2FrameFormat *f )
     {
         if( set_configure( f ) == 0 )
         {
-			 modulator_configuration();
              calc_efficiency();
              m_s2_config_updated = 1;
-			 m_interleave.initialize( f );
              return 0;
         }
     }
@@ -128,28 +121,22 @@ void DVBS2::s2_get_configure( DVB2FrameFormat *f )
 {
     get_configure( f );
 }
-int DVBS2::s2_add_ts_frame( u8 *ts )
+int DVBS2::s2_add_ts_frame( u8 *ts, bool do_pl )
 {
-	if( m_nTotalFrame >= FRAME_CACHE_COUNT )
-	{
-		printf("reach cache limit %d frames\n",FRAME_CACHE_COUNT);
-		return -1;
-	}
-
     int res = 0;
     // Call base class
-    if( next_ts_frame_base( ts ) )
+    if( next_ts_frame_base( ts ))
     {
-        // Interleave and pack
-		if( m_bInterleave )
-			m_interleave.s2_interleave( m_iframe, m_frame, m_payload_symbols );
-		else
-			m_interleave.s2_b2i( m_iframe, m_frame, m_payload_symbols );
-        // create the header
-        s2_pl_header_create();
-        // Add the data
-        res = s2_pl_data_pack();
-        // Do any updates required for the next frame
+        if (do_pl) {
+            // Interleave and pack
+            s2_interleave();
+            // create the header
+            s2_pl_header_create();
+            // Add the data
+            res = s2_pl_data_pack();
+            // Do any updates required for the next frame
+        }
+
         end_of_frame_actions();
     }
     return res;
@@ -164,48 +151,5 @@ DVBS2::DVBS2()
     modulator_configuration();
     build_symbol_scrambler_table();
     pl_build_dummy();
-
-	m_nTotalFrame = 0;
-	m_bInterleave = true;
-
-	m_nMulti = FRAME_CACHE_COUNT;
-	m_frameMulti = new Bit[ m_nMulti * FRAME_SIZE_NORMAL];
-
-	m_frame = m_frameMulti;
-
-	m_pl_cache = new scmplx[ m_nMulti * FRAME_SIZE_NORMAL ];
 }
 
-int DVBS2::s2_get_n_symbol()
-{
-	double p,m,S;
-	// Calculate the number of symbols in the payload
-	p = 0;m = 0;
-	if( m_format[1].frame_type == FRAME_NORMAL )  p = (double)FRAME_SIZE_NORMAL;
-	if( m_format[1].frame_type == FRAME_SHORT  )  p = (double)FRAME_SIZE_SHORT;
-	if( m_format[1].constellation == M_QPSK )     m = 2.0;
-	if( m_format[1].constellation == M_8PSK )     m = 3.0;
-	if( m_format[1].constellation == M_16APSK )   m = 4.0;
-	if( m_format[1].constellation == M_32APSK )   m = 5.0;
-	S= p/m/90;//Number of symbols per frame
-
-	int nSymbol = 90*(S+1);
-	int nPilot = 36 * int((S-1)/16 );
-	if( m_format[1].pilots )
-		nSymbol += nPilot;
-
-	return nSymbol;
-}
-
-int DVBS2::get_frame_count()
-{
-	return	m_nTotalFrame;
-}
-
-DVBS2::~DVBS2()
-{
-	delete[]	m_frameMulti;
-	m_frameMulti = NULL;
-	delete[]	m_pl_cache;
-	m_pl_cache = NULL;
-}

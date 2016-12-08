@@ -1,13 +1,10 @@
 #include "memory.h"
-#include "dvbs2_interleave.h"
+#include "DVBS2.h"
 //
 // The output is bit packed ready for modulating
 //
-void DVB_Interleave::s2_interleave( int* iframe, Bit* bframe, int& m_payload_symbols )
+void DVBS2::s2_interleave( void )
 {
-	int*	m_iframe = iframe;
-	Bit*	m_frame = bframe;
-
     int index=0;
     int rows=0;
 
@@ -88,34 +85,4 @@ void DVB_Interleave::s2_interleave( int* iframe, Bit* bframe, int& m_payload_sym
         }
         return;
     }
-}
-
-
-void DVB_Interleave::s2_b2i( int* iframe, Bit* bframe, int& m_payload_symbols )
-{
-	int*	m_iframe = iframe;
-	Bit*	m_frame = bframe;
-
-	memset( m_iframe, 0, sizeof(int)*FRAME_SIZE_NORMAL );
-
-	int rows=0;
-
-	int frame_size = m_format[0].nldpc;
-
-	// no interleave
-	int nConstellationType = m_format[0].constellation + 2;
-	rows = frame_size / nConstellationType;
-
-	m_payload_symbols =  rows;
-
-	for( int i = 0; i < rows; i++ )
-		for (int j=0;j<nConstellationType;j++)
-				m_iframe[i] |= m_frame[i*nConstellationType+j] << (nConstellationType-1-j) ;
-
-	return;
-}
-
-void DVB_Interleave::initialize( DVB2FrameFormat *f )
-{
-	m_format = f;
 }

@@ -1,9 +1,6 @@
 #include "DVB2.h"
-#include "dvbs2_interleave.h"
-
 #ifndef DVBS2_H
 #define DVBS2_H
-
 
 #ifndef M_PI
 #define M_PI 3.14159f
@@ -20,7 +17,6 @@ protected:
         scmplx m_16apsk[16];
         scmplx m_32apsk[32];
         scmplx m_pl[FRAME_SIZE_NORMAL];
-		scmplx *m_pl_cache;
         scmplx m_pl_dummy[FRAME_SIZE_NORMAL];
         int m_cscram[FRAME_SIZE_NORMAL];
         int m_iframe[FRAME_SIZE_NORMAL];
@@ -28,15 +24,10 @@ protected:
         int m_dummy_frame_length;
         double m_efficiency;
         int m_s2_config_updated;
-		int m_nTotalFrame;
-		bool	m_bInterleave;
-		int		m_nMulti;
-		DVB_Interleave	m_interleave;
-
         void b_64_7_code( unsigned char in, int *out );
         void s2_pl_header_encode( u8 modcod, u8 type, int *out);
         void modulator_configuration(void);
-        
+        void s2_interleave( void );
         void s2_pl_header_create(void);
         int  s2_pl_data_pack( void );
         void pl_scramble_symbols( scmplx *fs, int len );
@@ -52,13 +43,10 @@ public:
         void physical(void);
         int s2_set_configure( DVB2FrameFormat *f );
         void s2_get_configure( DVB2FrameFormat *f );
-        scmplx *pl_get_frame(int nFrame = 0);
+        scmplx *pl_get_frame(void);
         scmplx *pl_get_dummy( int &len );
-        int s2_add_ts_frame( u8 *ts );
-		int s2_get_n_symbol();
-		int get_frame_count();
+        int s2_add_ts_frame( u8 *ts, bool do_pl);
 	DVBS2();
-	~DVBS2();
 };
 
 #endif

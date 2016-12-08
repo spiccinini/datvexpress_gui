@@ -5,7 +5,13 @@
 #include <list>
 #include <stdio.h>
 #include "dvb_types.h"
-#include "dvb2_ldpc_encode.h"
+#include "DVB2.h"
+
+typedef struct{
+    int table_length;
+    Bit d[LDPC_ENCODE_TABLE_LENGTH];
+    Bit p[LDPC_ENCODE_TABLE_LENGTH];
+}Ldpc_encode_table;
 
 using namespace std;
 
@@ -15,14 +21,13 @@ typedef unsigned char u8;
 #define CRC8_LENGTH_BITS 8
 
 #define PADDING_LENGTH 200
-#define FRAME_CACHE_COUNT 20
 
 class DVB2{
 
 public:
 
 protected:
-    Bit *m_frame, *m_frameMulti;
+    Bit m_frame[FRAME_SIZE_NORMAL];
     DVB2FrameFormat m_format[2];
     Bit m_padding[PADDING_LENGTH];
         int m_frame_offset_bits;
@@ -40,12 +45,36 @@ protected:
     // Transport packet queue
     queue <u8> m_tp_q;
 
-	Ldpc_encode	m_ldpc;
+    // LDPC tables
+    const static int ldpc_tab_1_4N[45][13];
+    const static int ldpc_tab_1_3N[60][13];
+    const static int ldpc_tab_2_5N[72][13];
+    const static int ldpc_tab_1_2N[90][9];
+    const static int ldpc_tab_3_5N[108][13];
+    const static int ldpc_tab_2_3N[120][14];
+    const static int ldpc_tab_3_4N[135][13];
+    const static int ldpc_tab_4_5N[144][12];
+    const static int ldpc_tab_5_6N[150][14];
+    const static int ldpc_tab_8_9N[160][5];
+    const static int ldpc_tab_9_10N[162][5];
+    const static int ldpc_tab_1_4S[9][13];
+    const static int ldpc_tab_1_3S[15][13];
+    const static int ldpc_tab_2_5S[18][13];
+    const static int ldpc_tab_1_2S[20][9];
+    const static int ldpc_tab_3_5S[27][13];
+    const static int ldpc_tab_2_3S[30][14];
+    const static int ldpc_tab_3_4S[33][13];
+    const static int ldpc_tab_4_5S[35][4];
+    const static int ldpc_tab_5_6S[37][14];
+    const static int ldpc_tab_8_9S[40][5];
 
+
+    Ldpc_encode_table m_ldpc_encode;
     void bb_randomise(void);
     void init_scrambler(void);
     void init_bb_randomiser(void);
-
+    void ldpc_lookup_generate(void);
+    void ldpc_encode( void );
     int add_transport_packet( u8 *pkt, Bit *b );
     void build_crc8_table( void );
     u8	 calc_crc8( u8 *b, int len );
@@ -65,8 +94,8 @@ protected:
     Bit bch_s_12_encode( Bit *in, int len );
     int bch_encode( void );
     int add_ts_frame_base( u8 *ts );
-
-    void base_end_of_frame_actions( DVB2FrameFormat *f );
+    void ldpc_encode_test();
+    void base_end_of_frame_actions(void);
 protected:
     int  set_configure( DVB2FrameFormat *f );
     void get_configure( DVB2FrameFormat *f );
