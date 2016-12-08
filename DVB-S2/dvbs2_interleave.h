@@ -7,8 +7,6 @@
 using namespace std;
 
 #include "dvb_types.h"
-#include "modulatorDefinition.h"
-
 
 class DVB_Interleave {
 

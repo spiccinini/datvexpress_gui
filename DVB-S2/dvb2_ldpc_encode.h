@@ -7,7 +7,6 @@
 using namespace std;
 
 #include "dvb_types.h"
-#include "modulatorDefinition.h"
 
 typedef int Bit;
 

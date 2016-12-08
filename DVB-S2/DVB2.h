@@ -5,8 +5,6 @@
 #include <list>
 #include <stdio.h>
 #include "dvb_types.h"
-#include "modulatorDefinition.h"
-#include "bch_bm.h"
 #include "dvb2_ldpc_encode.h"
 
 using namespace std;
