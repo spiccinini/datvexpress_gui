@@ -131,7 +131,7 @@ void  inline DVB2::reg_4_shift( u32 *sr )
 //
 // Shift 160 bits
 //
-void  inline DVB2::reg_5_shift( u32 *sr )
+void  inline DVB2::reg_5_shift( uint32_t *sr )
 {
     sr[4] = (sr[4]>>1) | (sr[3]<<31);
     sr[3] = (sr[3]>>1) | (sr[2]<<31);
@@ -142,13 +142,10 @@ void  inline DVB2::reg_5_shift( u32 *sr )
 //
 // Shift 192 bits
 //
-void  inline DVB2::reg_6_shift( u32 *sr )
+void  inline DVB2::reg_6_shift( uint64_t *sr )
 {
-    sr[5] = (sr[5]>>1) | (sr[4]<<31);
-    sr[4] = (sr[4]>>1) | (sr[3]<<31);
-    sr[3] = (sr[3]>>1) | (sr[2]<<31);
-    sr[2] = (sr[2]>>1) | (sr[1]<<31);
-    sr[1] = (sr[1]>>1) | (sr[0]<<31);
+    sr[2] = (sr[2]>>1) | (sr[1]<<63);
+    sr[1] = (sr[1]>>1) | (sr[0]<<63);
     sr[0] = (sr[0]>>1);
 }
 
@@ -220,28 +217,27 @@ Bit DVB2::bch_n_12_encode( Bit *in, int len )
 {
     Bit b;
     int i;
-    u32 shift[6];
     //Zero the shift register
-    memset( shift,0,sizeof(u32)*6);
+    uint64_t shift[3] = {0};
+
+
     // MSB of the codeword first
+
     for( i = 0; i < len; i++ )
     {
-        b =  in[i] ^ (shift[5]&1);
+        b =  in[i] ^ (shift[2]&1);
         reg_6_shift( shift );
         if(b)
         {
             shift[0] ^= m_poly_n_12[0];
             shift[1] ^= m_poly_n_12[1];
             shift[2] ^= m_poly_n_12[2];
-            shift[3] ^= m_poly_n_12[3];
-            shift[4] ^= m_poly_n_12[4];
-            shift[5] ^= m_poly_n_12[5];
          }
     }
     // Now add the parity bits to the output
     for( int n = 0; n < 192; n++ )
     {
-        in[i++] = shift[5]&1;
+        in[i++] = shift[2]&1;
         reg_6_shift( shift );
     }
     return i;
@@ -259,7 +255,7 @@ Bit DVB2::bch_s_12_encode( Bit *in, int len )
     for( i = 0; i < len; i++ )
     {
         b = (in[i] ^ ((shift[5]&0x01000000)?1:0));
-        reg_6_shift( shift );
+        //reg_6_shift( shift );
         if(b)
         {
             shift[0] ^= m_poly_s_12[0];
@@ -274,7 +270,7 @@ Bit DVB2::bch_s_12_encode( Bit *in, int len )
     for( int n = 0; n < 168; n++ )
     {
         in[i++] = (shift[5]&0x01000000) ? 1:0;
-        reg_6_shift( shift );
+        //reg_6_shift( shift );
     }
     return i;
 }

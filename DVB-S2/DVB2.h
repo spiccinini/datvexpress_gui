@@ -88,7 +88,7 @@ protected:
     void bch_poly_build_tables( void );
     void reg_4_shift( u32 *sr );
     void reg_5_shift( u32 *sr );
-    void reg_6_shift( u32 *sr );
+    void reg_6_shift( uint64_t *sr );
     Bit bch_n_8_encode(  Bit *in, int len );
     Bit bch_n_10_encode( Bit *in, int len );
     Bit bch_n_12_encode( Bit *in, int len );
