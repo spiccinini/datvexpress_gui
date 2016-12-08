@@ -116,7 +116,7 @@ typedef struct{
 	int syncd;
 }BBHeader;
 
-typedef int Bit;
+typedef unsigned char Bit;
 
 // The number of useable and stuff bits in a frame
 typedef struct{

@@ -1,5 +1,6 @@
 #ifndef DVB2_H
 #define DVB2_H
+#include <stdint.h>
 #include <queue>
 #include <deque>
 #include <list>
@@ -8,15 +9,15 @@
 #include "DVB2.h"
 
 typedef struct{
-    int table_length;
-    Bit d[LDPC_ENCODE_TABLE_LENGTH];
-    Bit p[LDPC_ENCODE_TABLE_LENGTH];
+    unsigned int table_length;
+    unsigned int d[LDPC_ENCODE_TABLE_LENGTH];
+    unsigned int p[LDPC_ENCODE_TABLE_LENGTH];
 }Ldpc_encode_table;
 
 using namespace std;
 
-typedef unsigned int u32;
-typedef unsigned char u8;
+typedef uint32_t u32;
+typedef uint8_t u8;
 
 #define CRC8_LENGTH_BITS 8
 
