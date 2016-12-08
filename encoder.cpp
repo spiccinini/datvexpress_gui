@@ -51,8 +51,6 @@ int main()
 		int nFrameCount = m_dvbs2->get_frame_count();
 		printf("\nframe count : %d ... ... \n\n", nFrameCount );
 
-		fwrite( &nFrameCount, sizeof(int), 1, stdout );
-
 		for ( int i = 0; i<nFrameCount; i++ )
 		{
             /*

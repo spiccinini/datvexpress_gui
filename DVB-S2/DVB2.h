@@ -12,51 +12,10 @@ using namespace std;
 typedef unsigned int u32;
 typedef unsigned char u8;
 
-// BB HEADER fileds
-#define TS_GS_TRANSPORT 3
-#define TS_GS_GENERIC_PACKETIZED 0
-#define TS_GS_GENERIC_CONTINUOUS 1
-#define TS_GS_RESERVED 2
-
-#define SIS_MIS_SINGLE 1
-#define SIS_MIS_MULTIPLE 0
-
-#define CCM 1
-#define ACM 0
-
-#define ISSYI_ACTIVE 1
-#define ISSYI_NOT_ACTIVE 0
-
-#define NPD_ACTIVE 1
-#define NPD_NOT_ACTIVE 0
-#if 0
-// Rolloff
-#define RO_0_35 0
-#define RO_0_25 1
-#define RO_0_20 2
-#define RO_RESERVED 3
-#endif
-
-//#define FRAME_SIZE_NORMAL 64800
-//#define FRAME_SIZE_SHORT  16200
-//#define LDPC_ENCODE_TABLE_LENGTH (FRAME_SIZE_NORMAL*10)
-
-
-
-#define BB_HEADER_LENGTH_BITS 72
 #define CRC8_LENGTH_BITS 8
 
 #define PADDING_LENGTH 200
-
-#define		FRAME_CACHE_COUNT	20
-
-//Interface
-#define M_ACM 0
-#define M_CCM 1
-#define M_VCM 2
-
-
-
+#define FRAME_CACHE_COUNT 20
 
 class DVB2{
 
@@ -82,10 +41,6 @@ protected:
     queue <u8> m_tp_q;
 
 	Ldpc_encode	m_ldpc;
-
-
-	char	*m_bitLDPC;
-	char	*m_bitBCH;
 
     void bb_randomise(void);
     void init_scrambler(void);
@@ -117,8 +72,7 @@ protected:
     void get_configure( DVB2FrameFormat *f );
     int  next_ts_frame_base( u8 *ts );
 public:
-    // encode a new transport packet
-//    virtual void physical(void);
+
     DVB2();
     ~DVB2();
 };

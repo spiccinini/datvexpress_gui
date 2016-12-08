@@ -22,8 +22,6 @@ typedef struct{
 
 #define PADDING_LENGTH 200
 
-#define		FRAME_CACHE_COUNT	20
-
 //Interface
 #define M_ACM 0
 #define M_CCM 1
