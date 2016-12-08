@@ -25,7 +25,7 @@ void DVB2::base_end_of_frame_actions( DVB2FrameFormat *f )
 int DVB2::set_configure( DVB2FrameFormat *f )
 {
     int error = 0;
-	
+
 	error = f->configure();
 
     if( error == 0 )
@@ -40,8 +40,6 @@ int DVB2::set_configure( DVB2FrameFormat *f )
         else
             m_params_changed = 1;
     }
-
-	bch.setCode( f->code_rate, f->frame_type );
 
 	return error;
 }

@@ -88,7 +88,6 @@ protected:
 
 	char	*m_bitLDPC;
 	char	*m_bitBCH;
-	BCH_BM	bch;
 
     void bb_randomise(void);
     void init_scrambler(void);
