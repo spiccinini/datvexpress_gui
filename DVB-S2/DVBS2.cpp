@@ -1,4 +1,4 @@
-#include "memory.h"
+#include <string.h>
 #include "DVBS2.h"
 
 //
@@ -12,7 +12,7 @@ void  DVBS2::end_of_frame_actions(void)
         m_s2_config_updated = 0;
     }
 
-	memcpy_s( m_pl_cache+m_nTotalFrame*FRAME_SIZE_NORMAL, sizeof(scmplx)*FRAME_SIZE_NORMAL,
+	memcpy( m_pl_cache+m_nTotalFrame*FRAME_SIZE_NORMAL,
 		m_pl, sizeof(scmplx)*FRAME_SIZE_NORMAL );
 
 	m_nTotalFrame ++ ;
@@ -209,4 +209,3 @@ DVBS2::~DVBS2()
 	delete[]	m_pl_cache;
 	m_pl_cache = NULL;
 }
-
