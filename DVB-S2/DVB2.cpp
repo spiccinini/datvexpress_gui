@@ -224,7 +224,7 @@ int DVB2::add_ts_frame_base( u8 *ts )
     if( m_frame_offset_bits == m_format[0].kbch )
     {
         // Yes so now Scramble the BB frame
-        bb_randomise();
+        bb_scramble(this, &m_format[0], m_frame);
         // BCH encode the BB Frame
         bch_encode(&m_format[0], m_frame);
         // LDPC encode the BB frame and BCHFEC bits
@@ -265,7 +265,7 @@ DVB2::DVB2(void)
 {
     // Clear the transport queue
     m_tp_q.empty();
-    init_bb_randomiser();
+    init_bb_scrambler();
     bch_poly_build_tables();
     build_crc8_table();
     m_dnp   = 0;// No delted null packets
