@@ -79,7 +79,6 @@ protected:
     u8	 calc_crc8( u8 *b, int len );
     int add_crc8_bits( Bit *in, int length );
     void unpack_transport_packet_add_crc( u8 *ts );
-    void add_bbheader( void );
     void poly_reverse( int *pin, int *pout, int len );
     void poly_pack( const int *pin, u32* pout, int len );
     int poly_mult( const int *ina, int lena, const int *inb, int lenb, int *out );
@@ -108,6 +107,7 @@ public:
     static int bch_encode(DVB2FrameFormat *fmt, Bit* frame);
     static void ldpc_encode(DVB2 *, DVB2FrameFormat *fmt, Bit* frame);
     static void bb_scramble(DVB2 *, DVB2FrameFormat *fmt, Bit* frame);
+    static void add_bbheader(DVB2*encoder, DVB2FrameFormat *fmt, Bit *frame);
 };
 
 #endif

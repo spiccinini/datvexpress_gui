@@ -19,6 +19,12 @@ class DVBS2TestCase(unittest.TestCase):
         status = lib.dvbs2_config(self.encoder, lib.DVBS2_CR_1_2, lib.DVBS2_M_8PSK)
         self.assertEqual(status, -1)
 
+    def test_add_bbheader(self):
+        lib.dvbs2_config(self.encoder, lib.DVBS2_CR_1_2, lib.DVBS2_M_QPSK)
+        frame = ffi.new("uint8_t [%d]" % lib.FRAME_SIZE_NORMAL)
+        lib.dvbs2_add_bbheader(self.encoder, frame)
+        self.assertFalse(True)
+
     def test_bb_scramble(self):
         lib.dvbs2_config(self.encoder, lib.DVBS2_CR_1_2, lib.DVBS2_M_QPSK)
         frame = ffi.new("uint8_t [%d]" % lib.FRAME_SIZE_NORMAL, [1,0]*(CR_1_2_NBCH//2))
