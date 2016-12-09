@@ -25,9 +25,9 @@ DVBS2_API void dvbs2_free(dvbs2_t *encoder);
 
 DVBS2_API int dvbs2_config(dvbs2_t *encoder, uint32_t code_rate, uint32_t constellation);
 
-DVBS2_API int dvbs2_bch_encode(dvbs2_t *encoder, uint32_t * frame);
+DVBS2_API int dvbs2_bch_encode(dvbs2_t *encoder, uint8_t * frame);
 
-DVBS2_API void dvbs2_ldpc_encode(dvbs2_t *encoder, uint32_t * frame);
+DVBS2_API void dvbs2_ldpc_encode(dvbs2_t *encoder, uint8_t * frame);
 
 #ifdef __cplusplus
 }

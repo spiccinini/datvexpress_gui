@@ -9,8 +9,8 @@
 
 typedef struct{
     int table_length;
-    Bit d[LDPC_ENCODE_TABLE_LENGTH];
-    Bit p[LDPC_ENCODE_TABLE_LENGTH];
+    int d[LDPC_ENCODE_TABLE_LENGTH];
+    int p[LDPC_ENCODE_TABLE_LENGTH];
 }Ldpc_encode_table;
 
 using namespace std;
@@ -87,10 +87,10 @@ protected:
     static void reg_4_shift( u32 *sr );
     static void reg_5_shift( u32 *sr );
     static void reg_6_shift( u32 *sr );
-    static Bit bch_n_8_encode(  Bit *in, int len );
-    static Bit bch_n_10_encode( Bit *in, int len );
-    static Bit bch_n_12_encode( Bit *in, int len );
-    static Bit bch_s_12_encode( Bit *in, int len );
+    static uint32_t bch_n_8_encode(  Bit *in, uint32_t len );
+    static uint32_t bch_n_10_encode( Bit *in, uint32_t len );
+    static uint32_t bch_n_12_encode( Bit *in, uint32_t len );
+    static uint32_t bch_s_12_encode( Bit *in, uint32_t len );
 
     int add_ts_frame_base( u8 *ts );
     void ldpc_encode_test();

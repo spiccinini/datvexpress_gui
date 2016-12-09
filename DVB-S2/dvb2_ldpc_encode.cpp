@@ -122,8 +122,8 @@ void DVB2::ldpc_lookup_generate( void )
 void DVB2::ldpc_encode(DVB2 *encoder, DVB2FrameFormat *fmt, Bit* frame)
 {
     Bit *d,*p;
-    Bit * table_d = encoder->m_ldpc_encode.d;
-    Bit * table_p = encoder->m_ldpc_encode.p;
+    int * table_d = encoder->m_ldpc_encode.d;
+    int * table_p = encoder->m_ldpc_encode.p;
     int table_length = encoder->m_ldpc_encode.table_length;
 
     // Calculate the number of parity bits

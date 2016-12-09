@@ -115,7 +115,7 @@ typedef struct{
 	int syncd;
 }BBHeader;
 
-typedef int Bit;
+typedef unsigned char Bit;
 
 typedef struct{
 	int frame_type;

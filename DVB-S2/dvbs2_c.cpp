@@ -35,15 +35,15 @@ int dvbs2_config(dvbs2_t *encoder, uint32_t code_rate, uint32_t constellation)
     return AS_TYPE(DVBS2, encoder)->s2_set_configure(&dvbs2_fmt);
 }
 
-int dvbs2_bch_encode(dvbs2_t *encoder, uint32_t * frame) {
+int dvbs2_bch_encode(dvbs2_t *encoder, uint8_t * frame) {
     DVB2FrameFormat fmt;
     AS_TYPE(DVBS2, encoder)->get_configure(&fmt);
-    return AS_TYPE(DVBS2, encoder)->bch_encode(&fmt, (Bit *)frame);
+    return AS_TYPE(DVBS2, encoder)->bch_encode(&fmt, frame);
 }
 
-void dvbs2_ldpc_encode(dvbs2_t *encoder, uint32_t * frame) {
+void dvbs2_ldpc_encode(dvbs2_t *encoder, uint8_t * frame) {
     DVB2FrameFormat fmt;
     AS_TYPE(DVBS2, encoder)->get_configure(&fmt);
-    AS_TYPE(DVBS2, encoder)->ldpc_encode(AS_TYPE(DVBS2, encoder), &fmt, (Bit *)frame);
+    AS_TYPE(DVBS2, encoder)->ldpc_encode(AS_TYPE(DVBS2, encoder), &fmt, frame);
 }
 

@@ -156,10 +156,10 @@ void  inline DVB2::reg_6_shift( u32 *sr )
 // Take an bit array, bch encode it and place the result in a bit array
 // The input length is in bits.
 //
-Bit DVB2::bch_n_8_encode( Bit *in, int len )
+uint32_t DVB2::bch_n_8_encode( Bit *in, uint32_t len )
 {
     Bit b;
-    int i;
+    uint32_t i;
     u32 shift[4];
 
     //Zero the shift register
@@ -185,10 +185,11 @@ Bit DVB2::bch_n_8_encode( Bit *in, int len )
     }
     return i;
 }
-Bit DVB2::bch_n_10_encode( Bit *in,int len )
+
+uint32_t DVB2::bch_n_10_encode( Bit *in, uint32_t len )
 {
     Bit b;
-    int i;
+    uint32_t i;
     u32 shift[5];
 
     //Zero the shift register
@@ -216,10 +217,10 @@ Bit DVB2::bch_n_10_encode( Bit *in,int len )
     return i;
 }
 
-Bit DVB2::bch_n_12_encode( Bit *in, int len )
+uint32_t DVB2::bch_n_12_encode( Bit *in, uint32_t len )
 {
     Bit b;
-    int i;
+    uint32_t i;
     u32 shift[6];
     //Zero the shift register
     memset( shift,0,sizeof(u32)*6);
@@ -247,10 +248,10 @@ Bit DVB2::bch_n_12_encode( Bit *in, int len )
     return i;
 }
 
-Bit DVB2::bch_s_12_encode( Bit *in, int len )
+uint32_t DVB2::bch_s_12_encode( Bit *in, uint32_t len )
 {
     Bit b;
-    int i;
+    uint32_t i;
     u32 shift[6];
 
     //Zero the shift register
