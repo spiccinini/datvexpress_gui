@@ -280,24 +280,24 @@ Bit DVB2::bch_s_12_encode( Bit *in, int len )
 }
 
 
-int DVB2::bch_encode( void )
+int DVB2::bch_encode(DVB2FrameFormat *fmt, Bit *frame)
 {
     int res;
-    int len = m_format[0].kbch;
+    int len = fmt->kbch;
 
-    switch(m_format[0].bch_code)
+    switch(fmt->bch_code)
     {
     case BCH_CODE_N8:
-        res = bch_n_8_encode( m_frame, len );
+        res = bch_n_8_encode( frame, len );
         break;
     case BCH_CODE_N10:
-        res = bch_n_10_encode( m_frame, len );
+        res = bch_n_10_encode( frame, len );
         break;
     case BCH_CODE_N12:
-        res = bch_n_12_encode( m_frame, len );
+        res = bch_n_12_encode( frame, len );
         break;
     case BCH_CODE_S12:
-        res = bch_s_12_encode( m_frame, len );
+        res = bch_s_12_encode( frame, len );
         break;
     default:
         printf("BCH error situation\n");

@@ -36,10 +36,10 @@ protected:
 protected:
     int m_bbheader[BB_HEADER_LENGTH_BITS+CRC8_LENGTH_BITS];
     int m_bb_randomise[FRAME_SIZE_NORMAL];
-    u32 m_poly_n_8[4];
-    u32 m_poly_n_10[5];
-    u32 m_poly_n_12[6];
-    u32 m_poly_s_12[6];
+    static u32 m_poly_n_8[4];
+    static u32 m_poly_n_10[5];
+    static u32 m_poly_n_12[6];
+    static u32 m_poly_s_12[6];
     u8  m_crc_tab[256];
     u8  m_dnp; // Deleted null packet
     // Transport packet queue
@@ -85,23 +85,24 @@ protected:
     void poly_pack( const int *pin, u32* pout, int len );
     int poly_mult( const int *ina, int lena, const int *inb, int lenb, int *out );
     void bch_poly_build_tables( void );
-    void reg_4_shift( u32 *sr );
-    void reg_5_shift( u32 *sr );
-    void reg_6_shift( u32 *sr );
-    Bit bch_n_8_encode(  Bit *in, int len );
-    Bit bch_n_10_encode( Bit *in, int len );
-    Bit bch_n_12_encode( Bit *in, int len );
-    Bit bch_s_12_encode( Bit *in, int len );
-    int bch_encode( void );
+    static void reg_4_shift( u32 *sr );
+    static void reg_5_shift( u32 *sr );
+    static void reg_6_shift( u32 *sr );
+    static Bit bch_n_8_encode(  Bit *in, int len );
+    static Bit bch_n_10_encode( Bit *in, int len );
+    static Bit bch_n_12_encode( Bit *in, int len );
+    static Bit bch_s_12_encode( Bit *in, int len );
+
     int add_ts_frame_base( u8 *ts );
     void ldpc_encode_test();
     void base_end_of_frame_actions(void);
 protected:
     int  set_configure( DVB2FrameFormat *f );
-    void get_configure( DVB2FrameFormat *f );
+
     int  next_ts_frame_base( u8 *ts );
 public:
-
+    static int bch_encode(DVB2FrameFormat *fmt, Bit* frame);
+    void get_configure( DVB2FrameFormat *f );
     DVB2();
     ~DVB2();
 };

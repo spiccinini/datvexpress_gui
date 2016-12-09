@@ -2,6 +2,11 @@
 #include "DVB2.h"
 //#include "dvb.h"
 
+u32 DVB2::m_poly_n_8[4] = {0};
+u32 DVB2::m_poly_n_10[5] = {0};
+u32 DVB2::m_poly_n_12[6] = {0};
+u32 DVB2::m_poly_s_12[6] = {0};
+
 //
 // Update working parameters for the next frame
 // This prevents parameters changing during a frame
