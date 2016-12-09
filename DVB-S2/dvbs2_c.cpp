@@ -40,3 +40,10 @@ int dvbs2_bch_encode(dvbs2_t *encoder, uint32_t * frame) {
     AS_TYPE(DVBS2, encoder)->get_configure(&fmt);
     return AS_TYPE(DVBS2, encoder)->bch_encode(&fmt, (Bit *)frame);
 }
+
+void dvbs2_ldpc_encode(dvbs2_t *encoder, uint32_t * frame) {
+    DVB2FrameFormat fmt;
+    AS_TYPE(DVBS2, encoder)->get_configure(&fmt);
+    AS_TYPE(DVBS2, encoder)->ldpc_encode(AS_TYPE(DVBS2, encoder), &fmt, (Bit *)frame);
+}
+

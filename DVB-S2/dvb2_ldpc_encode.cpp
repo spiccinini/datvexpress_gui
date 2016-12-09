@@ -119,26 +119,31 @@ void DVB2::ldpc_lookup_generate( void )
     m_ldpc_encode.table_length = index;
 }
 
-void DVB2::ldpc_encode( void )
+void DVB2::ldpc_encode(DVB2 *encoder, DVB2FrameFormat *fmt, Bit* frame)
 {
     Bit *d,*p;
+    Bit * table_d = encoder->m_ldpc_encode.d;
+    Bit * table_p = encoder->m_ldpc_encode.p;
+    int table_length = encoder->m_ldpc_encode.table_length;
+
     // Calculate the number of parity bits
-    int plen = m_format[0].nldpc - m_format[0].kldpc;
-    d = m_frame;
-    p = &m_frame[m_format[0].kldpc];
+    int plen = fmt->nldpc - fmt->kldpc;
+    d = frame;
+    p = &frame[fmt->kldpc];
     // First zero all the parity bits
     memset( p, 0, sizeof(Bit)*plen);
 
     // now do the parity checking
-    for( int i = 0; i < m_ldpc_encode.table_length; i++ )
+    for( int i = 0; i < table_length; i++ )
     {
-        p[m_ldpc_encode.p[i]] ^= d[m_ldpc_encode.d[i]];
+        p[table_p[i]] ^= d[table_d[i]];
     }
     for( int i = 1; i < plen; i++ )
     {
         p[i] ^= p[i-1];
     }
 }
+
 void DVB2::ldpc_encode_test( void )
 {
     if(1)// m_format.code_rate == CR_1_2 )

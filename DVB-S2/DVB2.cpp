@@ -228,7 +228,7 @@ int DVB2::add_ts_frame_base( u8 *ts )
         // BCH encode the BB Frame
         bch_encode(&m_format[0], m_frame);
         // LDPC encode the BB frame and BCHFEC bits
-        ldpc_encode();
+        ldpc_encode(this, &m_format[0], m_frame);
         // Signal to the modulation specific class we have something to send
         base_end_of_frame_actions();
         return 1;

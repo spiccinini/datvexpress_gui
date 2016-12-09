@@ -74,7 +74,6 @@ protected:
     void init_scrambler(void);
     void init_bb_randomiser(void);
     void ldpc_lookup_generate(void);
-    void ldpc_encode( void );
     int add_transport_packet( u8 *pkt, Bit *b );
     void build_crc8_table( void );
     u8	 calc_crc8( u8 *b, int len );
@@ -100,11 +99,14 @@ protected:
     int  set_configure( DVB2FrameFormat *f );
 
     int  next_ts_frame_base( u8 *ts );
+
 public:
-    static int bch_encode(DVB2FrameFormat *fmt, Bit* frame);
-    void get_configure( DVB2FrameFormat *f );
     DVB2();
     ~DVB2();
+
+    void get_configure( DVB2FrameFormat *f );
+    static int bch_encode(DVB2FrameFormat *fmt, Bit* frame);
+    static void ldpc_encode(DVB2 *, DVB2FrameFormat *fmt, Bit* frame);
 };
 
 #endif
