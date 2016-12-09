@@ -1,15 +1,9 @@
 #ifndef DVB_TYPES_H
 #define DVB_TYPES_H
 
+#ifndef DVBS2_NOINCLUDE
 #include "inttypes.h"
-
-#pragma once
-
-#include <vector>
-#include <map>
-#include <iostream>
-using namespace std;
-
+#endif
 
 #define BB_HEADER_LENGTH_BITS 72
 

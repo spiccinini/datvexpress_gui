@@ -1,5 +1,8 @@
 #include <chrono>
+#include <iostream>
 #include "DVBS2.h"
+
+using namespace std;
 
 #define PACKET_SIZE		188
 #define PACKET_NUMBER	40000
@@ -51,10 +54,12 @@ int main()
 	}
 
 
-	std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
+	chrono::steady_clock::time_point begin = chrono::steady_clock::now();
+
 
 	for(size_t j=0; j< RUNS; ++j){
 	    u8 *data_ptr = data_stream;
+
 	    for (int i=0; i<PACKET_NUMBER; i++)
 	    {
 	        dvb_s2_encode_tp(m_dvbs2, data_ptr);
@@ -62,10 +67,10 @@ int main()
 	    }
 	}
 
-	std::chrono::steady_clock::time_point end= std::chrono::steady_clock::now();
-	float elapsed_s = std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count()/1000000.0;
-	std::cout << "Elapsed = " << elapsed_s << "s" << std::endl;
-	std::cout << "throughput = " << (PACKET_STREAM_SIZE*8.0*RUNS/elapsed_s/1024/1024) << "Mbps" << std::endl;
+	chrono::steady_clock::time_point end= chrono::steady_clock::now();
+	float elapsed_s = chrono::duration_cast<chrono::microseconds>(end - begin).count()/1000000.0;
+	cout << "Elapsed = " << elapsed_s << "s" << endl;
+	cout << "throughput = " << (PACKET_STREAM_SIZE*8.0*RUNS/elapsed_s/1024/1024) << "Mbps" << endl;
 
 	delete	m_dvbs2;
     return 0;
