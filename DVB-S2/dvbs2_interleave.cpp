@@ -10,7 +10,7 @@ void DVBS2::s2_interleave( void )
 
     int frame_size = m_format[0].nldpc;
 
-    if( m_format[0].constellation == M_QPSK )
+    if( m_format[0].constellation == DVBS2_M_QPSK )
     {
         rows = frame_size/2;
         m_payload_symbols =  rows;
@@ -22,9 +22,9 @@ void DVBS2::s2_interleave( void )
         return;
     }
 
-    if( m_format[0].constellation == M_8PSK )
+    if( m_format[0].constellation == DVBS2_M_8PSK )
     {
-        if( m_format[0].code_rate == CR_3_5 )
+        if( m_format[0].code_rate == DVBS2_CR_3_5 )
         {
             rows = frame_size/3;
             m_payload_symbols =  rows;
@@ -53,7 +53,7 @@ void DVBS2::s2_interleave( void )
         return;
     }
 
-    if( m_format[0].constellation == M_16APSK )
+    if( m_format[0].constellation == DVBS2_M_16APSK )
     {
         rows = frame_size/4;
         m_payload_symbols =  rows;
@@ -69,7 +69,7 @@ void DVBS2::s2_interleave( void )
         return;
     }
 
-    if( m_format[0].constellation == M_32APSK )
+    if( m_format[0].constellation == DVBS2_M_32APSK )
     {
         rows = frame_size/5;
         m_payload_symbols =  rows;

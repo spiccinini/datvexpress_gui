@@ -51,22 +51,22 @@ void DVBS2::modulator_configuration(void)
         r2 = m;
         switch( m_format[0].code_rate )
         {
-            case CR_2_3:
+            case DVBS2_CR_2_3:
                 r1 = r2/3.15;
                 break;
-            case CR_3_4:
+            case DVBS2_CR_3_4:
                 r1 = r2/2.85;
                 break;
-            case CR_4_5:
+            case DVBS2_CR_4_5:
                 r1 = r2/2.75;
                 break;
-            case CR_5_6:
+            case DVBS2_CR_5_6:
                 r1 = r2/2.70;
                 break;
-            case CR_8_9:
+            case DVBS2_CR_8_9:
                 r1 = r2/2.60;
                 break;
-            case CR_9_10:
+            case DVBS2_CR_9_10:
                 r1 = r2/2.57;
                 break;
             default:
@@ -110,23 +110,23 @@ void DVBS2::modulator_configuration(void)
         r3 = m;
         switch( m_format[0].code_rate )
         {
-            case CR_3_4:
+            case DVBS2_CR_3_4:
                 r1 = r3/5.27;
                 r2 = r1*2.84;
                 break;
-            case CR_4_5:
+            case DVBS2_CR_4_5:
                 r1 = r3/4.87;
                 r2 = r1*2.72;
                 break;
-            case CR_5_6:
+            case DVBS2_CR_5_6:
                 r1 = r3/4.64;
                 r2 = r1*2.64;
                 break;
-            case CR_8_9:
+            case DVBS2_CR_8_9:
                 r1 = r3/4.33;
                 r2 = r1*2.54;
                 break;
-            case CR_9_10:
+            case DVBS2_CR_9_10:
                 r1 = r3/4.30;
                 r2 = r1*2.53;
                 break;

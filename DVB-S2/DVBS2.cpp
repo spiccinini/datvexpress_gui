@@ -15,45 +15,45 @@ void  DVBS2::end_of_frame_actions(void)
 
 int DVBS2::is_valid( int mod, int coderate )
 {
-    if( mod == M_QPSK )
+    if( mod == DVBS2_M_QPSK )
     {
-        if(coderate == CR_1_4)  return 0;
-        if(coderate == CR_1_3)  return 0;
-        if(coderate == CR_2_5)  return 0;
-        if(coderate == CR_1_2)  return 0;
-        if(coderate == CR_3_5)  return 0;
-        if(coderate == CR_2_3)  return 0;
-        if(coderate == CR_3_4)  return 0;
-        if(coderate == CR_4_5)  return 0;
-        if(coderate == CR_5_6)  return 0;
-        if(coderate == CR_8_9)  return 0;
-        if(coderate == CR_9_10) return 0;
+        if(coderate == DVBS2_CR_1_4)  return 0;
+        if(coderate == DVBS2_CR_1_3)  return 0;
+        if(coderate == DVBS2_CR_2_5)  return 0;
+        if(coderate == DVBS2_CR_1_2)  return 0;
+        if(coderate == DVBS2_CR_3_5)  return 0;
+        if(coderate == DVBS2_CR_2_3)  return 0;
+        if(coderate == DVBS2_CR_3_4)  return 0;
+        if(coderate == DVBS2_CR_4_5)  return 0;
+        if(coderate == DVBS2_CR_5_6)  return 0;
+        if(coderate == DVBS2_CR_8_9)  return 0;
+        if(coderate == DVBS2_CR_9_10) return 0;
     }
-    if( mod == M_8PSK )
+    if( mod == DVBS2_M_8PSK )
     {
-        if(coderate == CR_3_5)  return 0;
-        if(coderate == CR_2_3)  return 0;
-        if(coderate == CR_3_4)  return 0;
-        if(coderate == CR_5_6)  return 0;
-        if(coderate == CR_8_9)  return 0;
-        if(coderate == CR_9_10) return 0;
+        if(coderate == DVBS2_CR_3_5)  return 0;
+        if(coderate == DVBS2_CR_2_3)  return 0;
+        if(coderate == DVBS2_CR_3_4)  return 0;
+        if(coderate == DVBS2_CR_5_6)  return 0;
+        if(coderate == DVBS2_CR_8_9)  return 0;
+        if(coderate == DVBS2_CR_9_10) return 0;
     }
-    if( mod == M_16APSK )
+    if( mod == DVBS2_M_16APSK )
     {
-        if(coderate == CR_2_3)  return 0;
-        if(coderate == CR_3_4)  return 0;
-        if(coderate == CR_4_5)  return 0;
-        if(coderate == CR_5_6)  return 0;
-        if(coderate == CR_8_9)  return 0;
-        if(coderate == CR_9_10) return 0;
+        if(coderate == DVBS2_CR_2_3)  return 0;
+        if(coderate == DVBS2_CR_3_4)  return 0;
+        if(coderate == DVBS2_CR_4_5)  return 0;
+        if(coderate == DVBS2_CR_5_6)  return 0;
+        if(coderate == DVBS2_CR_8_9)  return 0;
+        if(coderate == DVBS2_CR_9_10) return 0;
     }
-    if( mod == M_32APSK )
+    if( mod == DVBS2_M_32APSK )
     {
-        if(coderate == CR_3_4)  return 0;
-        if(coderate == CR_4_5)  return 0;
-        if(coderate == CR_5_6)  return 0;
-        if(coderate == CR_8_9)  return 0;
-        if(coderate == CR_9_10) return 0;
+        if(coderate == DVBS2_CR_3_4)  return 0;
+        if(coderate == DVBS2_CR_4_5)  return 0;
+        if(coderate == DVBS2_CR_5_6)  return 0;
+        if(coderate == DVBS2_CR_8_9)  return 0;
+        if(coderate == DVBS2_CR_9_10) return 0;
     }
     return -1;
 }
@@ -69,10 +69,10 @@ void DVBS2::calc_efficiency( void )
     p = 0;a = 0; m = 0;
     if( m_format[1].frame_type == FRAME_NORMAL )  p = (double)FRAME_SIZE_NORMAL;
     if( m_format[1].frame_type == FRAME_SHORT  )  p = (double)FRAME_SIZE_SHORT;
-    if( m_format[1].constellation == M_QPSK )     m = 2.0;
-    if( m_format[1].constellation == M_8PSK )     m = 3.0;
-    if( m_format[1].constellation == M_16APSK )   m = 4.0;
-    if( m_format[1].constellation == M_32APSK )   m = 5.0;
+    if( m_format[1].constellation == DVBS2_M_QPSK )     m = 2.0;
+    if( m_format[1].constellation == DVBS2_M_8PSK )     m = 3.0;
+    if( m_format[1].constellation == DVBS2_M_16APSK )   m = 4.0;
+    if( m_format[1].constellation == DVBS2_M_32APSK )   m = 5.0;
     s = p/m;//Number of symbols per frame
     // PL header overhead
     if( m_format[1].pilots )

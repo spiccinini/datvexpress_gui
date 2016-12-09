@@ -31,8 +31,10 @@ using namespace std;
 #define NPD_ACTIVE 1
 #define NPD_NOT_ACTIVE 0
 
-#define FRAME_SIZE_NORMAL 64800
-#define FRAME_SIZE_SHORT  16200
+enum {
+    FRAME_SIZE_NORMAL = 64800,
+    FRAME_SIZE_SHORT = 16200,
+};
 
 // BCH Code
 #define BCH_CODE_N8  0
@@ -43,28 +45,33 @@ using namespace std;
 #define LDPC_ENCODE_TABLE_LENGTH (FRAME_SIZE_NORMAL * 10)
 
 // Code rates
-#define CR_1_4 0
-#define CR_1_3 1
-#define CR_2_5 2
-#define CR_1_2 3
-#define CR_3_5 4
-#define CR_2_3 5
-#define CR_3_4 6
-#define CR_4_5 7
-#define CR_5_6 8
-#define CR_8_9 9
-#define CR_9_10 10
-#define CODE_RATE_COUNT	11
+enum {
+    DVBS2_CR_1_4 = 0,
+    DVBS2_CR_1_3 = 1,
+    DVBS2_CR_2_5 = 2,
+    DVBS2_CR_1_2 = 3,
+    DVBS2_CR_3_5 = 4,
+    DVBS2_CR_2_3 = 5,
+    DVBS2_CR_3_4 = 6,
+    DVBS2_CR_4_5 = 7,
+    DVBS2_CR_5_6 = 8,
+    DVBS2_CR_8_9 = 9,
+    DVBS2_CR_9_10 = 10,
+    CODE_RATE_COUNT	= 11,
+};
 
 #define FRAME_NORMAL 0x00
 #define FRAME_SHORT  0x10
 
 
 // Constellation
-#define M_QPSK   0
-#define M_8PSK   1
-#define M_16APSK 2
-#define M_32APSK 3
+enum {
+    DVBS2_M_QPSK   = 0,
+    DVBS2_M_8PSK   = 1,
+    DVBS2_M_16APSK = 2,
+    DVBS2_M_32APSK = 3,
+};
+
 #define M_CONST_NUMBER	 4
 #define M_SYMBOL_SIZE_MAX (1<<5)//32
 
@@ -81,7 +88,7 @@ enum Rolloff_Factor
 
 #define CP 0x7FFF
 
-#define		CODE_RATE_DEFAULT	CR_1_2
+#define		CODE_RATE_DEFAULT	DVBS2_CR_1_2
 #define		FRAME_TYPE_DEFAULT	FRAME_SHORT
 
 typedef struct{
@@ -89,8 +96,6 @@ typedef struct{
     short im;
 }scmplx;
 
-
-//#define scmplx fftw_complex
 
 typedef struct{
     double re;
@@ -117,12 +122,6 @@ typedef struct{
 }BBHeader;
 
 typedef int Bit;
-
-// The number of useable and stuff bits in a frame
-typedef struct{
-	int data_bits;
-	int stuff_bits;
-}FrameBits;
 
 typedef struct{
 	int frame_type;

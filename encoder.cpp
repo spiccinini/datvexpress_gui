@@ -28,8 +28,8 @@ int main()
 	// DVB-S2
 	//
 	dvbs2_fmt.frame_type    = FRAME_NORMAL;
-	dvbs2_fmt.code_rate     = CR_1_2;
-	dvbs2_fmt.constellation = M_QPSK;
+	dvbs2_fmt.code_rate     = DVBS2_CR_1_2;
+	dvbs2_fmt.constellation = DVBS2_M_QPSK;
 	dvbs2_fmt.roll_off      = RO_0_20;
 	dvbs2_fmt.pilots        = 0;
 	dvbs2_fmt.dummy_frame   = 0;

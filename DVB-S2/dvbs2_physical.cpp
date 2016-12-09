@@ -50,41 +50,41 @@ void DVBS2::s2_pl_header_create(void)
     if( m_format[0].pilots ) type |= 1;
 
     // Mode and code rate
-    if( m_format[0].constellation == M_QPSK )
+    if( m_format[0].constellation == DVBS2_M_QPSK )
     {
         switch( m_format[0].code_rate )
         {
-        case CR_1_4:
+        case DVBS2_CR_1_4:
             modcod = 1;
             break;
-        case CR_1_3:
+        case DVBS2_CR_1_3:
             modcod = 2;
             break;
-        case CR_2_5:
+        case DVBS2_CR_2_5:
             modcod = 3;
             break;
-        case CR_1_2:
+        case DVBS2_CR_1_2:
             modcod = 4;
             break;
-        case CR_3_5:
+        case DVBS2_CR_3_5:
             modcod = 5;
             break;
-        case CR_2_3:
+        case DVBS2_CR_2_3:
             modcod = 6;
             break;
-        case CR_3_4:
+        case DVBS2_CR_3_4:
             modcod = 7;
             break;
-        case CR_4_5:
+        case DVBS2_CR_4_5:
             modcod = 8;
             break;
-        case CR_5_6:
+        case DVBS2_CR_5_6:
             modcod = 9;
             break;
-        case CR_8_9:
+        case DVBS2_CR_8_9:
             modcod = 10;
             break;
-        case CR_9_10:
+        case DVBS2_CR_9_10:
             modcod = 11;
             break;
         default:
@@ -93,26 +93,26 @@ void DVBS2::s2_pl_header_create(void)
         }
     }
 
-    if( m_format[0].constellation == M_8PSK )
+    if( m_format[0].constellation == DVBS2_M_8PSK )
     {
         switch( m_format[0].code_rate )
         {
-            case CR_3_5:
+            case DVBS2_CR_3_5:
                 modcod = 12;
                 break;
-            case CR_2_3:
+            case DVBS2_CR_2_3:
                 modcod = 13;
                 break;
-            case CR_3_4:
+            case DVBS2_CR_3_4:
                 modcod = 14;
                 break;
-            case CR_5_6:
+            case DVBS2_CR_5_6:
                 modcod = 15;
                 break;
-            case CR_8_9:
+            case DVBS2_CR_8_9:
                 modcod = 16;
                 break;
-            case CR_9_10:
+            case DVBS2_CR_9_10:
                 modcod = 17;
                 break;
             default:
@@ -121,26 +121,26 @@ void DVBS2::s2_pl_header_create(void)
             }
     }
 
-    if( m_format[0].constellation == M_16APSK )
+    if( m_format[0].constellation == DVBS2_M_16APSK )
     {
         switch( m_format[0].code_rate )
         {
-        case CR_2_3:
+        case DVBS2_CR_2_3:
                 modcod = 18;
                 break;
-        case CR_3_4:
+        case DVBS2_CR_3_4:
                 modcod = 19;
                 break;
-        case CR_4_5:
+        case DVBS2_CR_4_5:
                 modcod = 20;
                 break;
-        case CR_5_6:
+        case DVBS2_CR_5_6:
                 modcod = 21;
                 break;
-        case CR_8_9:
+        case DVBS2_CR_8_9:
                 modcod = 22;
                 break;
-        case CR_9_10:
+        case DVBS2_CR_9_10:
                 modcod = 23;
                 break;
         default:
@@ -149,23 +149,23 @@ void DVBS2::s2_pl_header_create(void)
         }
     }
 
-    if( m_format[0].constellation == M_32APSK )
+    if( m_format[0].constellation == DVBS2_M_32APSK )
     {
         switch( m_format[0].code_rate )
         {
-        case CR_3_4:
+        case DVBS2_CR_3_4:
                 modcod = 24;
                 break;
-        case CR_4_5:
+        case DVBS2_CR_4_5:
                 modcod = 25;
                 break;
-        case CR_5_6:
+        case DVBS2_CR_5_6:
                 modcod = 26;
                 break;
-        case CR_8_9:
+        case DVBS2_CR_8_9:
                 modcod = 27;
                 break;
-        case CR_9_10:
+        case DVBS2_CR_9_10:
                 modcod = 28;
                 break;
         default:
@@ -198,7 +198,7 @@ int  DVBS2::s2_pl_data_pack( void )
     int block_count = 0;
 
     // See if PSK
-    if( m_format[0].constellation == M_QPSK )
+    if( m_format[0].constellation == DVBS2_M_QPSK )
     {
         for( int i = 0; i < blocks; i++ )
         {
@@ -221,7 +221,7 @@ int  DVBS2::s2_pl_data_pack( void )
         }
     }
     // See if 8 PSK
-    if( m_format[0].constellation == M_8PSK )
+    if( m_format[0].constellation == DVBS2_M_8PSK )
     {
         for( int i = 0; i < blocks; i++ )
         {
@@ -244,7 +244,7 @@ int  DVBS2::s2_pl_data_pack( void )
         }
     }
     // See if 16 PSK
-    if( m_format[0].constellation == M_16APSK )
+    if( m_format[0].constellation == DVBS2_M_16APSK )
     {
         for( int i = 0; i < blocks; i++ )
         {
@@ -267,7 +267,7 @@ int  DVBS2::s2_pl_data_pack( void )
         }
     }
     // See if 32 APSK
-    if( m_format[0].constellation == M_32APSK )
+    if( m_format[0].constellation == DVBS2_M_32APSK )
     {
         for( int i = 0; i < blocks; i++ )
         {

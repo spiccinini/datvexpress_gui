@@ -91,30 +91,30 @@ void DVB2::ldpc_lookup_generate( void )
 
     if(m_format[0].frame_type == FRAME_NORMAL)
     {
-        if( m_format[0].code_rate == CR_1_4 ) LDPC_BF( ldpc_tab_1_4N,  45  );
-        if( m_format[0].code_rate == CR_1_3 ) LDPC_BF( ldpc_tab_1_3N,  60  );
-        if( m_format[0].code_rate == CR_2_5 ) LDPC_BF( ldpc_tab_2_5N,  72  );
-        if( m_format[0].code_rate == CR_1_2 ) LDPC_BF( ldpc_tab_1_2N,  90  );
-        if( m_format[0].code_rate == CR_3_5 ) LDPC_BF( ldpc_tab_3_5N,  108 );
-        if( m_format[0].code_rate == CR_2_3 ) LDPC_BF( ldpc_tab_2_3N,  120 );
-        if( m_format[0].code_rate == CR_3_4 ) LDPC_BF( ldpc_tab_3_4N,  135 );
-        if( m_format[0].code_rate == CR_4_5 ) LDPC_BF( ldpc_tab_4_5N,  144 );
-        if( m_format[0].code_rate == CR_5_6 ) LDPC_BF( ldpc_tab_5_6N,  150 );
-        if( m_format[0].code_rate == CR_8_9 ) LDPC_BF( ldpc_tab_8_9N,  160 );
-        if( m_format[0].code_rate == CR_9_10) LDPC_BF( ldpc_tab_9_10N, 162 );
+        if( m_format[0].code_rate == DVBS2_CR_1_4 ) LDPC_BF( ldpc_tab_1_4N,  45  );
+        if( m_format[0].code_rate == DVBS2_CR_1_3 ) LDPC_BF( ldpc_tab_1_3N,  60  );
+        if( m_format[0].code_rate == DVBS2_CR_2_5 ) LDPC_BF( ldpc_tab_2_5N,  72  );
+        if( m_format[0].code_rate == DVBS2_CR_1_2 ) LDPC_BF( ldpc_tab_1_2N,  90  );
+        if( m_format[0].code_rate == DVBS2_CR_3_5 ) LDPC_BF( ldpc_tab_3_5N,  108 );
+        if( m_format[0].code_rate == DVBS2_CR_2_3 ) LDPC_BF( ldpc_tab_2_3N,  120 );
+        if( m_format[0].code_rate == DVBS2_CR_3_4 ) LDPC_BF( ldpc_tab_3_4N,  135 );
+        if( m_format[0].code_rate == DVBS2_CR_4_5 ) LDPC_BF( ldpc_tab_4_5N,  144 );
+        if( m_format[0].code_rate == DVBS2_CR_5_6 ) LDPC_BF( ldpc_tab_5_6N,  150 );
+        if( m_format[0].code_rate == DVBS2_CR_8_9 ) LDPC_BF( ldpc_tab_8_9N,  160 );
+        if( m_format[0].code_rate == DVBS2_CR_9_10) LDPC_BF( ldpc_tab_9_10N, 162 );
     }
     if(m_format[0].frame_type == FRAME_SHORT)
     {
-        if( m_format[0].code_rate == CR_1_4 ) LDPC_BF( ldpc_tab_1_4S, 9  );
-        if( m_format[0].code_rate == CR_1_3 ) LDPC_BF( ldpc_tab_1_3S, 15 );
-        if( m_format[0].code_rate == CR_2_5 ) LDPC_BF( ldpc_tab_2_5S, 18 );
-        if( m_format[0].code_rate == CR_1_2 ) LDPC_BF( ldpc_tab_1_2S, 20 );
-        if( m_format[0].code_rate == CR_3_5 ) LDPC_BF( ldpc_tab_3_5S, 27 );
-        if( m_format[0].code_rate == CR_2_3 ) LDPC_BF( ldpc_tab_2_3S, 30 );
-        if( m_format[0].code_rate == CR_3_4 ) LDPC_BF( ldpc_tab_3_4S, 33 );
-        if( m_format[0].code_rate == CR_4_5 ) LDPC_BF( ldpc_tab_4_5S, 35 );
-        if( m_format[0].code_rate == CR_5_6 ) LDPC_BF( ldpc_tab_5_6S, 37 );
-        if( m_format[0].code_rate == CR_8_9 ) LDPC_BF( ldpc_tab_8_9S, 40 );
+        if( m_format[0].code_rate == DVBS2_CR_1_4 ) LDPC_BF( ldpc_tab_1_4S, 9  );
+        if( m_format[0].code_rate == DVBS2_CR_1_3 ) LDPC_BF( ldpc_tab_1_3S, 15 );
+        if( m_format[0].code_rate == DVBS2_CR_2_5 ) LDPC_BF( ldpc_tab_2_5S, 18 );
+        if( m_format[0].code_rate == DVBS2_CR_1_2 ) LDPC_BF( ldpc_tab_1_2S, 20 );
+        if( m_format[0].code_rate == DVBS2_CR_3_5 ) LDPC_BF( ldpc_tab_3_5S, 27 );
+        if( m_format[0].code_rate == DVBS2_CR_2_3 ) LDPC_BF( ldpc_tab_2_3S, 30 );
+        if( m_format[0].code_rate == DVBS2_CR_3_4 ) LDPC_BF( ldpc_tab_3_4S, 33 );
+        if( m_format[0].code_rate == DVBS2_CR_4_5 ) LDPC_BF( ldpc_tab_4_5S, 35 );
+        if( m_format[0].code_rate == DVBS2_CR_5_6 ) LDPC_BF( ldpc_tab_5_6S, 37 );
+        if( m_format[0].code_rate == DVBS2_CR_8_9 ) LDPC_BF( ldpc_tab_8_9S, 40 );
     }
     m_ldpc_encode.table_length = index;
 }
