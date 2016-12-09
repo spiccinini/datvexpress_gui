@@ -1,0 +1,33 @@
+#ifndef DVBS2_H_INCLUDED
+#define DVBS2_H_INCLUDED
+
+#ifndef DVBS2_API
+#   if (__GNUC__ >= 4) && !defined(DVBS2_PY)
+#       define DVBS2_API __attribute__((visibility("default")))
+#   else
+#       define DVBS2_API
+#   endif
+#endif
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
+struct dvbs2_s;
+typedef struct dvbs2_s dvbs2_t;
+struct dvbs2_config;
+typedef struct dvbs2_config dvbs2_config_t;
+
+DVBS2_API dvbs2_t *dvbs2_new();
+
+DVBS2_API void dvbs2_free(dvbs2_t *encoder);
+
+DVBS2_API int dvbs2_config(dvbs2_t *encoder, uint32_t code_rate, uint32_t constellation);
+
+DVBS2_API int dvbs2_bch_encode(dvbs2_t *encoder, uint32_t * frame);
+
+#ifdef __cplusplus
+}
+#endif
+#endif
