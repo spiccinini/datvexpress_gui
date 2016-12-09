@@ -112,10 +112,9 @@ void DVB2::add_bbheader(DVB2*encoder, DVB2FrameFormat *fmt, Bit *frame)
     }
     // Calculate syncd, this should point to the MSB of the CRC
     temp = encoder->m_tp_q.size();
-    if( temp == 0 )
-        temp = 187*8;
-    else
-        temp = (temp-1)*8;
+    if (temp != 0) {
+      temp = (188 - temp) * 8;
+    }
     //temp = h->syncd;// Syncd
     for( int n = 15; n >= 0; n-- )
     {

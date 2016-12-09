@@ -4,6 +4,7 @@ from pydvbs2.clib import ffi, lib
 
 CR_1_2_KBCH = 32208
 CR_1_2_NBCH = 32400
+BB_HEADER_SIZE = 80
 
 class DVBS2TestCase(unittest.TestCase):
     def setUp(self):
@@ -21,9 +22,16 @@ class DVBS2TestCase(unittest.TestCase):
 
     def test_add_bbheader(self):
         lib.dvbs2_config(self.encoder, lib.DVBS2_CR_1_2, lib.DVBS2_M_QPSK)
-        frame = ffi.new("uint8_t [%d]" % lib.FRAME_SIZE_NORMAL)
+        frame = ffi.new("uint8_t [%d]" % lib.FRAME_SIZE_NORMAL, [0x47]*CR_1_2_NBCH)
         lib.dvbs2_add_bbheader(self.encoder, frame)
-        self.assertFalse(True)
+        expected = [1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0]
+        self.assertSequenceEqual(list(frame[0:BB_HEADER_SIZE]), expected)
+
+        frame2 = ffi.new("uint8_t [%d]" % lib.FRAME_SIZE_NORMAL, [0x47]*CR_1_2_NBCH)
+        lib.dvbs2_add_bbheader(self.encoder, frame2)
+        expected_second = [1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1]
+        self.assertSequenceEqual(list(frame2[0:BB_HEADER_SIZE]), expected_second)
+
 
     def test_bb_scramble(self):
         lib.dvbs2_config(self.encoder, lib.DVBS2_CR_1_2, lib.DVBS2_M_QPSK)

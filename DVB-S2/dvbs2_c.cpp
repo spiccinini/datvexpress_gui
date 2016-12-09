@@ -31,7 +31,7 @@ int dvbs2_config(dvbs2_t *encoder, uint32_t code_rate, uint32_t constellation)
     dvbs2_fmt.pilots = 1; // FIXME ¿?
     dvbs2_fmt.dummy_frame = 0;
     dvbs2_fmt.null_deletion = 0;
-
+    dvbs2_fmt.broadcasting = 1;
     return AS_TYPE(DVBS2, encoder)->s2_set_configure(&dvbs2_fmt);
 }
 
