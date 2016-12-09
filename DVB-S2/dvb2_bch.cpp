@@ -351,19 +351,14 @@ void DVB2::bch_poly_build_tables( void )
     len = poly_mult( polyn07, 17, polyout[0], len, polyout[1] );
     len = poly_mult( polyn08, 17, polyout[1], len, polyout[0] );
     poly_pack( polyout[0], m_poly_n_8, 128 );
-//    display_poly_pack( m_poly_n_8, 128);
 
     len = poly_mult( polyn09, 17, polyout[0], len, polyout[1] );
     len = poly_mult( polyn10, 17, polyout[1], len, polyout[0] );
     poly_pack( polyout[0], m_poly_n_10, 160 );
-//    display_poly_pack( m_poly_n_10, 160);
 
     len = poly_mult( polyn11, 17, polyout[0], len, polyout[1] );
     len = poly_mult( polyn12, 17, polyout[1], len, polyout[0] );
     poly_pack( polyout[0], m_poly_n_12, 192 );
-//    display_poly_pack( m_poly_n_12, 192);
-//  display_poly( polyout[0], len );//12
-
 
     len = poly_mult( polys01, 15, polys02,    15,  polyout[0] );
     len = poly_mult( polys03, 15, polyout[0], len, polyout[1] );
@@ -377,33 +372,4 @@ void DVB2::bch_poly_build_tables( void )
     len = poly_mult( polys11, 15, polyout[0], len, polyout[1] );
     len = poly_mult( polys12, 15, polyout[1], len, polyout[0] );
     poly_pack( polyout[0], m_poly_s_12, 168 );
-//    display_poly_pack( m_poly_s_12, 168);
-
-/*
-    // test
-    int pt1[] = {1,1};
-    int pt2[] = {1,1,1};
-    int pt3[] = {1,0,1,1,1,1};
-    len = poly_mult( pt1, 2, pt2, 3, polyout[0] );
-    len = poly_mult( pt3, 6, polyout[0], len, polyout[1] );
-    display_poly( polyout[1], len );
-    poly_pack( polyout[1], m_poly_s_12, len );
-    display_poly_pack( m_poly_s_12, 8 );
-    u32 shift[6];
-    shift[0] = 0x80000000;
-    shift[1] = 0x00000000;
-    shift[2] = 0x00000000;
-    shift[3] = 0x00000000;
-    shift[4] = 0x00000000;
-    shift[5] = 0x00000000;
-
-    for( int i = 0; i < 192; i++ )
-    {
-        display_poly_pack( shift, 192 );
-        reg_6_shift( shift );
-    }
-
-//  display_poly( polyout[0], len );//12
-//  display_poly_pack( m_poly_s_12, 168 );// Wont work because of shift register length
-*/
 }
