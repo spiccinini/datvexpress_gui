@@ -6,8 +6,7 @@ SET(GCC_COVERAGE_COMPILE_FLAGS "-pedantic -Wall -Wextra -std=c++11 -mtune=native
 
 SET( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} ${GCC_COVERAGE_COMPILE_FLAGS}" )
 
-add_executable (encoder
-    encoder.cpp
+list(APPEND CXX_SOURCES
     DVB-S2/dvb2_bch.cpp
     DVB-S2/dvb2_bbheader.cpp
     DVB-S2/DVB2.cpp
@@ -20,6 +19,14 @@ add_executable (encoder
     DVB-S2/dvbs2_physical.cpp
     DVB-S2/dvbs2_scrambler.cpp
     DVB-S2/dvbs2_tables.cpp
+    DVB-S2/dvbs2_c.cpp
 )
+
+add_executable (encoder
+    encoder.cpp
+    ${CXX_SOURCES}
+)
+
+add_library(dvbs2 SHARED ${CXX_SOURCES})
 
 include_directories(DVB-S2)
