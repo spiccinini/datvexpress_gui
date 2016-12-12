@@ -86,7 +86,7 @@ void DVB2::add_bbheader(DVB2*encoder, DVB2FrameFormat *fmt, Bit *frame,
         temp = h->isi;
         for( int n = 7; n >= 0; n-- )
         {
-            frame[encoder->m_frame_offset_bits++] = temp&(1<<n)? 1 : 0;
+            frame[encoder->m_frame_offset_bits++] = (temp >> n) & 1;
         }
     }
     else
@@ -99,17 +99,17 @@ void DVB2::add_bbheader(DVB2*encoder, DVB2FrameFormat *fmt, Bit *frame,
     temp = h->upl;
     for( int n = 15; n >= 0; n-- )
     {
-        frame[encoder->m_frame_offset_bits++] = temp&(1<<n)?1:0;
+        frame[encoder->m_frame_offset_bits++] = (temp >> n) & 1;
     }
     temp = h->dfl;
     for( int n = 15; n >= 0; n-- )
     {
-        frame[encoder->m_frame_offset_bits++] = temp&(1<<n)?1:0;
+        frame[encoder->m_frame_offset_bits++] = (temp >> n) & 1;
     }
     temp = h->sync;
     for( int n = 7; n >= 0; n-- )
     {
-        frame[encoder->m_frame_offset_bits++] = temp&(1<<n)?1:0;
+        frame[encoder->m_frame_offset_bits++] = (temp >> n) & 1;
     }
     // Calculate syncd, this should point to the MSB of the CRC
     temp = user_packet_remaining_bytes * 8; // syncd
@@ -117,7 +117,7 @@ void DVB2::add_bbheader(DVB2*encoder, DVB2FrameFormat *fmt, Bit *frame,
     //temp = h->syncd;// Syncd
     for( int n = 15; n >= 0; n-- )
     {
-        frame[encoder->m_frame_offset_bits++] = temp&(1<<n)?1:0;
+        frame[encoder->m_frame_offset_bits++] = (temp >> n) & 1;
     }
     // Add CRC to BB header, at end
     int len = BB_HEADER_LENGTH_BITS;
