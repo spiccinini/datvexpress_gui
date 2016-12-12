@@ -107,7 +107,8 @@ public:
     static int bch_encode(DVB2FrameFormat *fmt, Bit* frame);
     static void ldpc_encode(DVB2 *, DVB2FrameFormat *fmt, Bit* frame);
     static void bb_scramble(DVB2 *, DVB2FrameFormat *fmt, Bit* frame);
-    static void add_bbheader(DVB2*encoder, DVB2FrameFormat *fmt, Bit *frame);
+    static void add_bbheader(DVB2*encoder, DVB2FrameFormat *fmt, Bit *frame,
+                            uint32_t remaining_bytes);
 };
 
 #endif

@@ -31,7 +31,8 @@ DVBS2_API void dvbs2_ldpc_encode(dvbs2_t *encoder, uint8_t * frame);
 
 DVBS2_API void dvbs2_bb_scramble(dvbs2_t *encoder, uint8_t * frame);
 
-DVBS2_API void dvbs2_add_bbheader(dvbs2_t *encoder, uint8_t * frame);
+DVBS2_API void dvbs2_add_bbheader(dvbs2_t *encoder, uint8_t * frame,
+                                  uint32_t user_packet_remaining_bytes);
 
 #ifdef __cplusplus
 }

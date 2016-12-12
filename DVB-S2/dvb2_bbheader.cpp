@@ -66,7 +66,8 @@ int DVB2::add_crc8_bits( Bit *in, int length )
 //
 // Formatted into a binary array
 //
-void DVB2::add_bbheader(DVB2*encoder, DVB2FrameFormat *fmt, Bit *frame)
+void DVB2::add_bbheader(DVB2*encoder, DVB2FrameFormat *fmt, Bit *frame,
+        uint32_t user_packet_remaining_bytes)
 {
     int temp;
     BBHeader *h = &fmt->bb_header;
@@ -111,10 +112,8 @@ void DVB2::add_bbheader(DVB2*encoder, DVB2FrameFormat *fmt, Bit *frame)
         frame[encoder->m_frame_offset_bits++] = temp&(1<<n)?1:0;
     }
     // Calculate syncd, this should point to the MSB of the CRC
-    temp = encoder->m_tp_q.size();
-    if (temp != 0) {
-      temp = (188 - temp) * 8;
-    }
+    temp = user_packet_remaining_bytes * 8; // syncd
+
     //temp = h->syncd;// Syncd
     for( int n = 15; n >= 0; n-- )
     {

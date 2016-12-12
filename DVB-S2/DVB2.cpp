@@ -216,7 +216,7 @@ int DVB2::add_ts_frame_base( u8 *ts )
     if( m_frame_offset_bits == 0 )
     {
          // New frame needs to be sent
-        add_bbheader(this, &m_format[0], m_frame); // Add the header
+        add_bbheader(this, &m_format[0], m_frame, m_tp_q.size()); // Add the header
     }
     // Add a new transport packet
     unpack_transport_packet_add_crc( ts );
