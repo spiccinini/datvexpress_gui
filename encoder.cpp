@@ -7,7 +7,7 @@ using namespace std;
 #define PACKET_SIZE		188
 #define PACKET_NUMBER	40000
 #define PACKET_STREAM_SIZE	(PACKET_NUMBER*PACKET_SIZE)
-#define RUNS     5
+#define RUNS     10
 
 
 void dvb_s2_encode_tp(DVBS2* m_dvbs2, u8 *tp)

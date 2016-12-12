@@ -46,7 +46,7 @@ class DVBS2TestCase(unittest.TestCase):
 
     def test_bch_encode(self):
         lib.dvbs2_config(self.encoder, lib.DVBS2_CR_1_2, lib.DVBS2_M_QPSK)
-        frame = ffi.new("uint8_t [%d]" % lib.FRAME_SIZE_NORMAL, [1,0]*(CR_1_2_NBCH//2))
+        frame = ffi.new("uint8_t [%d]" % lib.FRAME_SIZE_NORMAL, [1,0]*(CR_1_2_KBCH//2))
         encoded_bytes = lib.dvbs2_bch_encode(self.encoder, frame)
         self.assertEqual(encoded_bytes, CR_1_2_NBCH)
         expected = [0, 1, 1, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1, 0,
@@ -55,7 +55,17 @@ class DVBS2TestCase(unittest.TestCase):
                     1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 1, 1, 1, 1,
                     1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0,
                     0, 0, 1, 1, 1, 1, 0]
+
         self.assertSequenceEqual(list(frame[CR_1_2_KBCH:CR_1_2_NBCH]), expected)
+
+    def test_bch_encode_packed(self):
+        lib.dvbs2_config(self.encoder, lib.DVBS2_CR_1_2, lib.DVBS2_M_QPSK)
+        frame_packed = ffi.new("uint8_t [%d]" % (lib.FRAME_SIZE_NORMAL//8, ), [170]*(CR_1_2_KBCH//8))
+        encoded_bytes = lib.dvbs2_bch_encode_packed(self.encoder, frame_packed)
+        self.assertEqual(encoded_bytes, CR_1_2_NBCH//8)
+        expected = [101, 193,  11, 126,  87, 128, 247, 218, 137, 253, 159, 231,  81,
+                      237, 220, 156, 127, 233, 253, 246,   9, 172,  90,  30]
+        self.assertSequenceEqual(list(frame_packed[CR_1_2_KBCH//8:CR_1_2_NBCH//8]), expected)
 
     def test_ldpc_encode(self):
         lib.dvbs2_config(self.encoder, lib.DVBS2_CR_1_2, lib.DVBS2_M_QPSK)

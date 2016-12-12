@@ -52,7 +52,13 @@ void dvbs2_bb_scramble(dvbs2_t *encoder, uint8_t * frame) {
 int dvbs2_bch_encode(dvbs2_t *encoder, uint8_t * frame) {
     DVB2FrameFormat fmt;
     AS_TYPE(DVBS2, encoder)->get_configure(&fmt);
-    return AS_TYPE(DVBS2, encoder)->bch_encode(&fmt, frame);
+    return AS_TYPE(DVBS2, encoder)->bch_encode(&fmt, frame, 0);
+}
+
+int dvbs2_bch_encode_packed(dvbs2_t *encoder, uint8_t * frame) {
+    DVB2FrameFormat fmt;
+    AS_TYPE(DVBS2, encoder)->get_configure(&fmt);
+    return AS_TYPE(DVBS2, encoder)->bch_encode(&fmt, frame, 1);
 }
 
 void dvbs2_ldpc_encode(dvbs2_t *encoder, uint8_t * frame) {

@@ -89,6 +89,7 @@ protected:
     static uint32_t bch_n_8_encode(  Bit *in, uint32_t len );
     static uint32_t bch_n_10_encode( Bit *in, uint32_t len );
     static uint32_t bch_n_12_encode( Bit *in, uint32_t len );
+    static uint32_t bch_n_12_encode_packed( Bit *in, uint32_t len );
     static uint32_t bch_s_12_encode( Bit *in, uint32_t len );
 
     int add_ts_frame_base( u8 *ts );
@@ -104,7 +105,7 @@ public:
     ~DVB2();
 
     void get_configure( DVB2FrameFormat *f );
-    static int bch_encode(DVB2FrameFormat *fmt, Bit* frame);
+    static int bch_encode(DVB2FrameFormat *fmt, Bit* frame, uint8_t packed);
     static void ldpc_encode(DVB2 *, DVB2FrameFormat *fmt, Bit* frame);
     static void bb_scramble(DVB2 *, DVB2FrameFormat *fmt, Bit* frame);
     static void add_bbheader(DVB2*encoder, DVB2FrameFormat *fmt, Bit *frame,

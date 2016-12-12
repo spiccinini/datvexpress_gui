@@ -217,16 +217,102 @@ uint32_t DVB2::bch_n_10_encode( Bit *in, uint32_t len )
     return i;
 }
 
+inline uint8_t ReverseBitsInByte(uint8_t v)
+{
+    return (v * 0x0202020202ULL & 0x010884422010ULL) % 1023;
+}
+
+inline uint8_t ReverseBits4ops64bit(uint8_t v)
+{
+    return ((v * 0x80200802ULL) & 0x0884422110ULL) * 0x0101010101ULL >> 32;
+}
+
+#define R2(n)     n,     n + 2*64,     n + 1*64,     n + 3*64
+#define R4(n) R2(n), R2(n + 2*16), R2(n + 1*16), R2(n + 3*16)
+#define R6(n) R4(n), R4(n + 2*4 ), R4(n + 1*4 ), R4(n + 3*4 )
+
+static const unsigned char BitReverseTable256[256] =
+{
+    R6(0), R6(2), R6(1), R6(3)
+};
+
+inline uint8_t ReverseBitsLookupTable(uint8_t v)
+{
+    return BitReverseTable256[v];
+}
+
+inline uint8_t ReverseBits5logNOps(uint8_t v)
+{
+    v = ((v >> 1) & 0x55) | ((v & 0x55) << 1);
+    v = ((v >> 2) & 0x33) | ((v & 0x33) << 2);
+    v = ((v >> 4) & 0x0F) | ((v & 0x0F) << 4);
+    return v;
+}
+
+inline uint32_t reverse(uint32_t x)
+{
+    x = ((x >> 1) & 0x55555555u) | ((x & 0x55555555u) << 1);
+    x = ((x >> 2) & 0x33333333u) | ((x & 0x33333333u) << 2);
+    x = ((x >> 4) & 0x0f0f0f0fu) | ((x & 0x0f0f0f0fu) << 4);
+    x = ((x >> 8) & 0x00ff00ffu) | ((x & 0x00ff00ffu) << 8);
+    x = ((x >> 16) & 0xffffu) | ((x & 0xffffu) << 16);
+    return x;
+}
+
+uint32_t DVB2::bch_n_12_encode_packed( Bit *in, uint32_t len )
+{
+    Bit b, c;
+    uint32_t i;
+    u32 shift[6] = {0};
+
+    // MSB of the codeword first
+    for( i = 0; i < len; i++ )
+    {
+        for(int j=7; j >= 0; --j) {
+            c = (in[i] >> j);
+            b =  (c ^ shift[5]) & 1;
+            reg_6_shift( shift );
+            if(b)
+            {
+                shift[0] ^= m_poly_n_12[0];
+                shift[1] ^= m_poly_n_12[1];
+                shift[2] ^= m_poly_n_12[2];
+                shift[3] ^= m_poly_n_12[3];
+                shift[4] ^= m_poly_n_12[4];
+                shift[5] ^= m_poly_n_12[5];
+             }
+        }
+    }
+    //printf("shift [%X, %X, %X, %X, %X, %X]\n", shift[0], shift[1], shift[2], shift[3], shift[4], shift[5]);
+    // Now add the parity bits to the output
+
+    for( int n = 0; n < (192/8/4); n++ )
+    {
+        uint32_t u = reverse(shift[5]);
+
+        in[i++] = (u >> 24) & 0xff;
+        in[i++] = (u >> 16) & 0xff;
+        in[i++] = (u >> 8) & 0xff;
+        in[i++] =  u & 0xff;
+
+        for(uint8_t j =0; j <(8*4); ++j) {
+            reg_6_shift( shift );
+        }
+    }
+
+    return i;
+}
+
 uint32_t DVB2::bch_n_12_encode( Bit *in, uint32_t len )
 {
     Bit b;
     uint32_t i;
-    u32 shift[6];
-    //Zero the shift register
-    memset( shift,0,sizeof(u32)*6);
+    u32 shift[6] = {0};
+
     // MSB of the codeword first
     for( i = 0; i < len; i++ )
     {
+        //if (i < 10) {printf("in %d", in[i]);}
         b =  in[i] ^ (shift[5]&1);
         reg_6_shift( shift );
         if(b)
@@ -247,6 +333,7 @@ uint32_t DVB2::bch_n_12_encode( Bit *in, uint32_t len )
     }
     return i;
 }
+
 
 uint32_t DVB2::bch_s_12_encode( Bit *in, uint32_t len )
 {
@@ -281,10 +368,13 @@ uint32_t DVB2::bch_s_12_encode( Bit *in, uint32_t len )
 }
 
 
-int DVB2::bch_encode(DVB2FrameFormat *fmt, Bit *frame)
+int DVB2::bch_encode(DVB2FrameFormat *fmt, Bit *frame, uint8_t packed)
 {
     int res;
     int len = fmt->kbch;
+    if (packed) {
+        len /= 8;
+    }
 
     switch(fmt->bch_code)
     {
@@ -295,7 +385,11 @@ int DVB2::bch_encode(DVB2FrameFormat *fmt, Bit *frame)
         res = bch_n_10_encode( frame, len );
         break;
     case BCH_CODE_N12:
-        res = bch_n_12_encode( frame, len );
+        if(packed){
+            res = bch_n_12_encode_packed( frame, len );
+        } else {
+            res = bch_n_12_encode( frame, len );
+        }
         break;
     case BCH_CODE_S12:
         res = bch_s_12_encode( frame, len );
